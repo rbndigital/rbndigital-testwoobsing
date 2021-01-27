@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../usuario';
 import { UsuarioService } from '../usuario.service';
-import swal from 'sweetalert';
 
 @Component({
   selector: 'app-usuario',
@@ -44,9 +43,9 @@ export class UsuarioComponent implements OnInit {
         console.log(res);
 
         if(res.usuario){
-          swal("Registrado!", "Usuario registrado con exito!", "success");
+          alert('Usuario registrado con exito!');
         }else if(res.error.email){
-          swal("Error!", "El email ya esta registrado!", "error");
+          alert('El email ya esta registrado!');
         }
 
         this.usuario = new Usuario();
@@ -71,20 +70,13 @@ export class UsuarioComponent implements OnInit {
 
   delete(id:any){
 
-    swal({
-      title: "Esta seguro ?",
-      text: "Esta seguro de eliminar este usuario ?",
-      icon: "warning",
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        this.service.delete(id).subscribe((res)=> {
-          this.operacionCRUD.is_new = false;
-          this.ngOnInit();
-        });
-      }
-    });
+    if(confirm('Esta seguro de eliminar este usuario ?')){
+      this.service.delete(id).subscribe((res)=> {
+        this.operacionCRUD.is_new = false;
+        this.ngOnInit();
+      });
+    }}
 
   }
 
-}
+
